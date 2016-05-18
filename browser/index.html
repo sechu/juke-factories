@@ -10,27 +10,35 @@
     <script src="/js/album/album.controllers.js" defer></script>
      <script src="/js/album/albums.controllers.js" defer></script>
     <script src="/js/player/player.controller.js" defer></script>
+    <script src="/js/sidebar/sidebar.controller.js" defer></script>
+    <script src="/js/artist/artist.controller.js" defer></script>
     <script src="/js/player/player.factory.js" defer></script>
     <script src="/js/album/album.factory.js" defer></script>
+    <script src="/js/artist/artist.factory.js" defer></script>
   </head>
   <body ng-app="juke">
     <div id="main" class="container-fluid">
 
-      <div class="col-xs-2">
+      <div class="col-xs-2" ng-controller="SidebarCtrl">
         <sidebar>
           <img src="juke.svg" class="logo">
           <section>
             <h4 class="menu-item active">
-              <a href="#">ALBUMS</a>
+              <a href="#" ng-click="viewAlbums()">ALBUMS</a>
             </h4>
+          </section>
+          <section>
+            <h5 class="playlist-item">
+              <a ng-click="viewAllArtists()" href="#">ARTISTS</a>
+            </h5>
           </section>
         </sidebar>
       </div>
 
       <div class="col-xs-10">
-        <div ng-show="true" class="album" ng-controller="AlbumCtrl">
+        <div ng-show="showAlbum" class="album" ng-controller="AlbumCtrl">
           <p>
-            <h3>{{ album.name }} ({{album.totalTime}})</h3>
+            <h3>{{ album.name }} {{album.totalTime}}</h3>
             <img ng-src="{{ album.imageUrl }}" class="img-thumbnail">
           </p>
           <table class='table'>
@@ -56,11 +64,11 @@
             </tbody>
           </table>
         </div>
-        <div ng-show="false" ng-controller="AlbumsCtrl">
+        <div ng-show="showAlbums" ng-controller="AlbumsCtrl">
           <h3>Albums</h3>
           <div class="row">
             <div class="col-xs-4" ng-repeat="album in albums">
-              <a class="thumbnail" href="#">
+              <a class="thumbnail" href="#" ng-click="viewAlbum(album)">
                 <img ng-src="{{album.imageUrl}}">
                 <div class="caption">
                   <h5>
@@ -72,8 +80,20 @@
             </div>
           </div>
         </div>
+        <div ng-show="showArtists" ng-controller="ArtistsCtrl">
+          <h3>Artists</h3>
+            <div class="list-group">
+              <div class="list-group-item" ng-repeat="artist in artists">
+              <a href="#">{{ artist.name }}</a>
+            </div>
+          </div>
+        </div>
       </div>
-
+      <div>
+        <h3>ARTIST NAME</h3>
+        <h4>ALBUMS</h4>
+        <h4>SONGS</h4>
+      </div>
       <footer>
         <div ng-show="currentSong()" ng-controller="PlayerCtrl">
           <div class="pull-left">
