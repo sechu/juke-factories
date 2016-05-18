@@ -1,19 +1,21 @@
 'use strict';
 
-juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
+juke.controller('PlayerCtrl', function ($scope, PlayerFactory) {
 
   // initialize audio player (note this kind of DOM stuff is odd for Angular)
-  var audio = document.createElement('audio');
-  
 
-  // state
-  $scope.currentSong;
-  $scope.playing = false;
+  // $scope.currentSong = PlayerFactory.getCurrentSong();
+  // $scope.playing = PlayerFactory.isPlaying();
+  $scope.prev = PlayerFactory.previous;
+  $scope.next = PlayerFactory.next;
+  $scope.progress = PlayerFactory.getProgress;
 
-  // incoming events (from Album or toggle)
-  $scope.$on('pause', pause);
-  $scope.$on('play', play);
+  $scope.currentSong = PlayerFactory.getCurrentSong;
+  $scope.playing = PlayerFactory.isPlaying;
 
-  PlayerFactory.next(list);
+  $scope.toggle = function(song) {
+    if ($scope.playing()) PlayerFactory.pause();
+    else PlayerFactory.resume();
+  }
   
 });

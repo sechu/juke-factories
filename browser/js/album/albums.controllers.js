@@ -15,5 +15,4 @@ juke.controller('AlbumsCtrl', function ($scope, $log, StatsFactory, AlbumFactory
 	    $scope.albums = albumsFull;
 	  })
 	  .catch($log.error); // $log service can be turned on and off; also, pre-bound
-
 })

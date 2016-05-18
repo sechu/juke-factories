@@ -1,6 +1,6 @@
 'use strict';
 
-juke.factory('PlayerFactory', function(){
+juke.factory('PlayerFactory', function($rootScope){
 	var player = {
 		start: start,
 		pause: pause,
@@ -26,8 +26,7 @@ juke.factory('PlayerFactory', function(){
 	// enable loading new song
 		currentSong = song;
 		list = songList;
-		audio.src = song.audioUrl;
-		
+		audio.src = '/api/songs/' + song.id + '/audio';
 		audio.load();
 		audio.play();
 	}
@@ -65,11 +64,13 @@ juke.factory('PlayerFactory', function(){
 	}
 
 	function getProgress() {
+
 		return progress;
 	}
 	
 	audio.addEventListener('loadedmetadata', function () {
 		audio.addEventListener('timeupdate', function () {
+			$rootScope.$digest();
 	    	progress = audio.currentTime / audio.duration;
 		})
 	 });
